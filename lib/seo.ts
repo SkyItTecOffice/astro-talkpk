@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { locales, ogLocale, type Locale } from "./i18n";
-import { SITE } from "./site";
+import { SITE, absUrl } from "./site";
 
 type Args = {
   lang: Locale;
@@ -12,9 +12,10 @@ type Args = {
 };
 
 export function pageMeta({ lang, path = "", title, description, type = "website", publishedTime }: Args): Metadata {
-  const url = `/${lang}${path}`;
-  const languages: Record<string, string> = Object.fromEntries(locales.map((l) => [l, `/${l}${path}`]));
-  languages["x-default"] = `/en${path}`;
+  const slash = (p: string) => `${p}/`;
+  const url = slash(`/${lang}${path}`);
+  const languages: Record<string, string> = Object.fromEntries(locales.map((l) => [l, slash(`/${l}${path}`)]));
+  languages["x-default"] = slash(`/en${path}`);
 
   return {
     title,
@@ -42,7 +43,7 @@ export function breadcrumbLd(lang: Locale, items: { name: string; path: string }
       "@type": "ListItem",
       position: i + 1,
       name: it.name,
-      item: `${SITE.url}/${lang}${it.path}`,
+      item: absUrl(`/${lang}${it.path}`),
     })),
   };
 }

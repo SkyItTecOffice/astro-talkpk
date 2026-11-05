@@ -30,4 +30,9 @@ export const SITE = {
   themeColor: "#0B1F3A",
 };
 
-export const absUrl = (path = "") => `${SITE.url}${path}`;
+// The site is exported with trailingSlash, so page URLs end in "/".
+// Files (sitemap.xml, llms.txt, opengraph-image) and fragments (#org) are left as-is.
+export const absUrl = (path = "") => {
+  const isPage = path !== "" && !/[.#]|opengraph-image$|\/$/.test(path);
+  return `${SITE.url}${isPage ? `${path}/` : path}`;
+};

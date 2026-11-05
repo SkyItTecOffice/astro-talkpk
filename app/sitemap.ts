@@ -3,6 +3,8 @@ import { locales } from "@/lib/i18n";
 import { posts, services } from "@/lib/content";
 import { absUrl } from "@/lib/site";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages: { path: string; priority: number; changeFrequency: "weekly" | "monthly"; lastModified?: string }[] = [
     { path: "", priority: 1, changeFrequency: "weekly" },
